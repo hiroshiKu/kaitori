@@ -1,26 +1,37 @@
 import {defineType, defineField} from 'sanity'
 
-export default defineType({
+export default {
   name: 'model',
+  title: 'Model',
   type: 'document',
-  title: 'モデル',
   fields: [
-    defineField({
-      name: 'title',
+    {
+      name: 'name',
+      title: '機種名',
       type: 'string',
-      title: 'モデル名',
-    }),
-    defineField({
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'slug',
+      title: 'Slug',
       type: 'slug',
-      title: 'スラッグ',
-      options: {source: 'title'},
-    }),
-    defineField({
-      name: 'category',
-      type: 'reference',
-      title: 'カテゴリ',
-      to: [{type: 'category'}],
-    }),
+      options: {
+        source: 'name',
+      },
+      description: 'iPhoneは機種名のみ / Androidはキャリア型番込み（例: aquos_sense8_SH-54D）',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'platform',
+      title: 'Platform',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'iPhone', value: 'iphone'},
+          {title: 'Android', value: 'android'},
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    },
   ],
-})
+}
